@@ -9,6 +9,9 @@
   "author": "Farzad Sadeghi",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "node-fetch": ">=2.1.2"
+    "argparse": "^1.0.10",
+    "node-fetch": "^2.6.0",
+    "package.json": "^2.0.1",
+    "zlib": "^1.0.5"
   }
 }
