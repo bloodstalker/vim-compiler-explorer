@@ -47,10 +47,15 @@ parser.addArgument(["-u", "--url"], {
   help: "the url for the API",
   dest: "url"
 })
+parser.addArgument(["-f", "--filetype"], {
+  help: "the filetype for the source file.",
+  require: true,
+  dest: "filetype"
+})
 
-function get_compiler_list() {return fetch(REST_URL + "compilers", {headers:{"Accept": "application/json"}})}
-function get_language_list() {return fetch(REST_URL + "languages", {headers:{"Accept": "application/json"}})}
-function get_libraries_list() {return fetch(REST_URL + "libraries", {headers:{"Accept": "application/json"}})}
+async function get_compiler_list() {return await fetch(REST_URL + "compilers", {headers:{"Accept": "application/json"}})}
+async function get_language_list() {return await fetch(REST_URL + "languages", {headers:{"Accept": "application/json"}})}
+async function get_libraries_list() {return await fetch(REST_URL + "libraries", {headers:{"Accept": "application/json"}})}
 async function read_C_source(path) {return await readFile(path, "utf-8")}
 async function get_config_for_file(path_to_config) {return await JSON.parse(fs.readFileSync(path_to_config))}
 
