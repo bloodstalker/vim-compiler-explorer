@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+
+skinparam usecase {
+  BackgroundColor DarkSeaGreen
+  BorderColor DarkSlateGray
+  ArrowColor Olive
+}
+
+skinparam ActorBorderColor Green
+skinparam ActorBackgroundColor Olive
+
+skinparam NoteBackgroundColor DeepSkyBlue
+skinparam NoteBorderColor DarkBlue
+
+skinparam packageStyle rectangle
+
+actor User
+usecase (Request Generation) as JSS
+usecase (User Config) as U_CONF
+usecase (Default Config) as D_CONF
+usecase (Compilation Databse) as COMPDB
+usecase vim
+usecase (Compiler explorer) as CEX
+usecase (JS Script2) as JSS2
+usecase (Display) as Display
+
+User -> vim : user visually selects text in vim
+vim -> JSS : vim sends source code and filetype to js script
+U_CONF --> JSS : js script reads user config
+D_CONF --> JSS : js script reads default config
+COMPDB --> JSS : js script reads the compilation database(C/C++)
+JSS -> CEX : sends request to compiler explorer
+CEX -> JSS2 : sends requesr response
+JSS2 -> Display : result is sent to be displayed on vim
+
+note left of JSS 
+  The question of who shohld handle C/C++ headers still remains:
+  - a python script using libclang should just extract them
+  - we just add all the standard and library headers
+  - the user provides them in the user config
+end note
+note top of D_CONF
+  not sure how much sense a default config really makes as N2
+end note
+
+@enduml
