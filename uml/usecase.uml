@@ -34,7 +34,7 @@ JSS -> CEX : sends request to compiler explorer
 CEX -> JSS2 : sends requesr response
 JSS2 -> Display : result is sent to be displayed on vim
 
-note left of JSS 
+note left of JSS
   The question of who shohld handle C/C++ headers still remains:
   - a python script using libclang should just extract them
   - we just add all the standard and library headers

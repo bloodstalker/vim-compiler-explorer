@@ -2,7 +2,6 @@
 "use strict"
 //npm install node-fetch
 //npm install argparse
-//npm install zlib
 
 const fetch = require('node-fetch')
 const fs = require("fs")
@@ -27,7 +26,7 @@ const defaultOpts = {
 }
 
 const ArgumentParser = require("argparse").ArgumentParser
-var parser = new ArgumentParser({})
+const parser = new ArgumentParser({})
 parser.addArgument(["-d", "--compdb"], {
   help: "path to compilation database.",
   required: true,
@@ -71,6 +70,12 @@ function get_comp_options_for_file(database, filename) {
   }
 }
 
+/**
+ * sends a compilaiton request to compiler explorer
+ * @param {string} data the source code to attach to the request
+ * @param {json} options list of additional options to send to compiler explorer
+ * @returns {response} response
+ * */
 function JSON_POST_req(data, options) {
   const config = fs.readFileSync(options, "utf-8")
   const dummy = {"source": data, "options": JSON.parse(config)}
