@@ -5,35 +5,54 @@ skinparam class {
   BackgroundColor DarkSlateGray
   ArrowColor DarkSeaGreen
   BorderColor Olive
+  FontColor MediumSeaGreen
 }
+
+skinparam DefaultFontColor SpringGreen
+skinparam NoteBackgroundColor Green
+skinparam NoteBorderColor SeaGreen
 
 class Config {
   Compiler_Options
-}
-class Default_Config {
-  Compiler_Options
+  Compilation_Database_Path
+  User_Config_Path
+  Vim_Assembly_Filetype
+  Keybindings
+  Web_Or_Local
 }
 class User_Config {
-  Compiler_Options
+  Per_Source_To_Header_Dependency
 }
 class Compilation_Database {
   Compiler_Options
 }
 class Compiler_Options {
-  Language_Kind
   Compiler_Kind
   Compiler_Options
 }
 class Filter_Options
-class C_Fam_Header_Info
-class Source_Code
+class Header_Info {
+  Header_Text : if non-standard, non-library
+  Header_Info
+}
+class Source_Code {
+  Source_Text
+  Header_Text : if non-standard, non-library
+  Header_Info
+  Aggregate_Source_And_Header()
+}
 class Request
-class Visual_Selection
-class Vim_Settings
+class Visual_Selection {
+  Source_Code
+}
+class Vim_Settings {
+  Vim_Assembly_Filetype
+  Keybindings
+}
+class Vim_Filetype
 
-Config <|-- Default_Config
-Config <|-- User_Config
-Config <|-- Compilation_Database
+Config "1" <|-- "1" Default_Config
+Config "1" <|-- "0..1" User_Config
 
 Compiler_Options "1" o-- "1" Default_Config
 Compiler_Options "1" o-- "0..1" User_Config
@@ -41,16 +60,37 @@ Compiler_Options "1" o-- "0..1" Compilation_Database
 
 Filter_Options "1" o-- "1" Default_Config
 Filter_Options "1" o-- "0..1" User_Config
-Filter_Options "1" o-- "0..1" Compilation_Database
 
-Vim_Settings "1" o-- "0..1" Default_Config
+Vim_Settings "1" o-- "1" Default_Config
 Vim_Settings "1" o-- "0..1" User_Config
 
-Source_Code "1" o-- C_Fam_Header_Info
-Source_Code "1" o-- Visual_Selection
+Source_Code "1" o-- "0..*" Header_Info
+Source_Code "1" o-- "0..*" Visual_Selection
 
-Request o-- Filter_Options
-Request o-- Source_Code
-Request o-- Compiler_Options
+Request "1" o-- "0..1" Filter_Options
+Request "1" o-- "1" Source_Code
+Request "1" o-- "1" Compiler_Options
+Request "1" o-- "1" Vim_Filetype
+
+note right of Header_Info
+  The non-standard, not-library heaeders will
+  have to get pasted into the source code.
+end note
+note right of Header_Info
+  User will have to provide a list
+  that correlates each source with a
+  header.
+end note
+note right of Header_Info
+  all headers must get included 
+  into the source file with an 
+  inclusion directive.
+end note
+note right of Config
+  Should there be a per-filetype Userconfig?
+end note
+note right of User_Config
+  Should User_Config be forced?
+end note
 
 @enduml
