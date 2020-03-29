@@ -1,0 +1,48 @@
+@startuml
+
+skinparam activity {
+  StartColor ForestGreen
+  BarColor DodgerBlue
+  EndColor ForestGreen
+  BorderColor DarkSlateGray
+  BackgroundColor DarkSlateGray
+  ArrowColor DarkGreen
+  FontColor White
+}
+
+(*) --> "Receive visual selection from vim"
+--> ===B1===
+
+===B1=== --> if "If Compilation_Database" then
+  ->[true]  "Read Compilation Databse" 
+  --> ===B2===
+else
+  ->[false] ===B2===
+endif
+
+===B1=== --> if "If Read_User_Config" then
+  ->[true] "Read User Config"
+  -> ===B2===
+else
+  ->[false] ===B2===
+endif
+
+===B1=== --> "Read Default Config"
+--> ===B2===
+
+===B2=== --> "Determine Header Info"
+--> "Add Header Info to visual selection"
+--> ===B3===
+
+===B2=== --> "Determine Filter Options"
+--> ===B3===
+===B2=== --> "Determine Compiler"
+--> ===B3===
+
+--> "Send Request"
+--> "Receive Request"
+--> "Display Result"
+
+--> (*)
+
+@enduml
